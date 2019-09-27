@@ -6,14 +6,14 @@ Apache Solr DataImportHandler status metrics plugin for mackerel.io agent.
 ## Synopsis
 
 ```shell
-mackerel-plugin-solrdih [-url=<url>]
+mackerel-plugin-solrdih -core=<corename> [-url=<url>]
 ```
 
 ## Example of mackerel-agent.conf
 
 ```
 [plugin.metrics.solrdih]
-command = "/path/to/mackerel-plugin-solrdih"
+command = "/path/to/mackerel-plugin-solrdih -core=testcore"
 ```
 
 ## See also
