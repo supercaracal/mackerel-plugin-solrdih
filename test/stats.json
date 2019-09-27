@@ -1,0 +1,18 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 0
+  },
+  "initArgs": [],
+  "command": "status",
+  "status": "idle",
+  "importResponse": "",
+  "statusMessages": {
+    "Total Requests made to DataSource": "2",
+    "Total Rows Fetched": "0",
+    "Total Documents Processed": "0",
+    "Total Documents Skipped": "0",
+    "Full Dump Started": "2019-09-27 07:10:22",
+    "Time taken": "0:0:19.856"
+  }
+}
