@@ -17,6 +17,6 @@ command = "/path/to/mackerel-plugin-solrdih -core=testcore"
 ```
 
 ## See also
-* [DataImportHandler](https://cwiki.apache.org/confluence/display/solr/DataImportHandler)
+* [Uploading Structured Data Store Data with the Data Import Handler](https://lucene.apache.org/solr/guide/8_1/uploading-structured-data-store-data-with-the-data-import-handler.html)
 * [go-mackerel-pluginを利用してカスタムメトリックプラグインを作成する](https://mackerel.io/ja/docs/entry/advanced/go-mackerel-plugin)
 * [mkr plugin installに対応したプラグインを作成する](https://mackerel.io/ja/docs/entry/advanced/make-plugin-corresponding-to-installer)
