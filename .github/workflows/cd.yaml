@@ -28,13 +28,13 @@ jobs:
           echo "::add-path::$(go env GOPATH)/bin"
 
       - name: Get goxz
-        uses: supercaracal/go-mod-ins-action@v1
+        uses: supercaracal/go-mod-dl-action@v1
         with:
           url: "https://github.com/Songmu/goxz/releases/download/v0.6.0/goxz_v0.6.0_linux_amd64.tar.gz"
         id: goxz
 
       - name: Get ghr
-        uses: supercaracal/go-mod-ins-action@v1
+        uses: supercaracal/go-mod-dl-action@v1
         with:
           url: "https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz"
         id: ghr
