@@ -23,31 +23,26 @@ jobs:
           go-version: ${{ matrix.go-ver }}
 
       - name: Add $GOPATH/bin to $PATH
-        run: echo "::add-path::$(go env GOPATH)/bin"
-
-      - name: Install goxz
         run: |
-          wget https://github.com/Songmu/${PKG_NAME}/releases/download/${PKG_VER}/${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}.tar.gz
-          tar zxf ${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}.tar.gz
-          mkdir -p  $(go env GOPATH)/bin
-          mv ${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}/${PKG_NAME} $(go env GOPATH)/bin/
-        env:
-          PKG_NAME: goxz
-          PKG_VER: v0.6.0
-          GOOS: linux
-          GOARCH: amd64
+          mkdir -p $(go env GOPATH)/bin
+          echo "::add-path::$(go env GOPATH)/bin"
 
-      - name: Install ghr
+      - name: Get goxz
+        uses: supercaracal/go-mod-ins-action@v1
+        with:
+          url: "https://github.com/Songmu/goxz/releases/download/v0.6.0/goxz_v0.6.0_linux_amd64.tar.gz"
+        id: goxz
+
+      - name: Get ghr
+        uses: supercaracal/go-mod-ins-action@v1
+        with:
+          url: "https://github.com/tcnksm/ghr/releases/download/v0.13.0/ghr_v0.13.0_linux_amd64.tar.gz"
+        id: ghr
+
+      - name: Install Go tools
         run: |
-          wget https://github.com/tcnksm/${PKG_NAME}/releases/download/${PKG_VER}/${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}.tar.gz
-          tar zxf ${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}.tar.gz
-          mkdir -p  $(go env GOPATH)/bin
-          mv ${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}/${PKG_NAME} $(go env GOPATH)/bin/
-        env:
-          PKG_NAME: ghr
-          PKG_VER: v0.13.0
-          GOOS: linux
-          GOARCH: amd64
+          mv ${{ steps.goxz.outputs.file }} $(go env GOPATH)/bin/
+          mv ${{ steps.ghr.outputs.file }} $(go env GOPATH)/bin/
 
       - name: Cross Compile
         run: make cross-compile
