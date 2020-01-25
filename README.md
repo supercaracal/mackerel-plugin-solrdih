@@ -1,4 +1,4 @@
-mackerel-plugin-solrdih [![Build Status](https://travis-ci.org/supercaracal/mackerel-plugin-solrdih.svg?branch=master)](https://travis-ci.org/supercaracal/mackerel-plugin-solrdih)
+mackerel-plugin-solrdih ![](https://github.com/supercaracal/mackerel-plugin-solrdih/workflows/CI/badge.svg) ![](https://github.com/supercaracal/mackerel-plugin-solrdih/workflows/CD/badge.svg)
 =====================
 
 Apache Solr DataImportHandler status metrics plugin for mackerel.io agent.

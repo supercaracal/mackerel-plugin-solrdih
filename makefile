@@ -1,20 +1,29 @@
-SHELL := /bin/bash
+SHELL      := /bin/bash
+owner_id   := supercaracal
+app_name   := mackerel-plugin-solrdih
+latest_tag := $(shell git describe --abbrev=0 --tags)
 
-all:
-	@$(MAKE) --no-print-directory lint
-	@$(MAKE) --no-print-directory test
-	@$(MAKE) --no-print-directory build
+all: build test lint
 
 build: mackerel-plugin-solrdih
 
 mackerel-plugin-solrdih: main.go
-	GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o $@
-
-lint:
-	@go vet
-	@golint -set_exit_status
+	go build -ldflags="-s -w" -trimpath -o $@
 
 test:
-	@go test
+	go test
 
-.PHONY: all build lint test
+lint:
+	go vet
+	golint -set_exit_status
+
+clean:
+	@rm -f mackerel-plugin-solrdih main
+
+cross-compile:
+	goxz -d dist/${latest_tag} -z -os windows,darwin,linux -arch amd64,386
+
+upload-assets:
+	ghr -u ${owner_id} -r ${app_name} ${latest_tag} dist/${latest_tag}
+
+.PHONY: all build test lint clean cross-compile upload-assets

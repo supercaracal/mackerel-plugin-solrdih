@@ -1,0 +1,66 @@
+---
+name: CD
+on:
+  push:
+    tags:
+      - "v*"
+jobs:
+  release:
+    name: Release
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        os: ["ubuntu-latest"]
+        go-ver: ["1.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-ver }}
+
+      - name: Add $GOPATH/bin to $PATH
+        run: echo "::add-path::$(go env GOPATH)/bin"
+
+      - name: Install goxz
+        run: |
+          wget https://github.com/Songmu/${PKG_NAME}/releases/download/${PKG_VER}/${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}.tar.gz
+          tar zxf ${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}.tar.gz
+          mkdir -p  $(go env GOPATH)/bin
+          mv ${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}/${PKG_NAME} $(go env GOPATH)/bin/
+        env:
+          PKG_NAME: goxz
+          PKG_VER: v0.6.0
+          GOOS: linux
+          GOARCH: amd64
+
+      - name: Install ghr
+        run: |
+          wget https://github.com/tcnksm/${PKG_NAME}/releases/download/${PKG_VER}/${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}.tar.gz
+          tar zxf ${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}.tar.gz
+          mkdir -p  $(go env GOPATH)/bin
+          mv ${PKG_NAME}_${PKG_VER}_${GOOS}_${GOARCH}/${PKG_NAME} $(go env GOPATH)/bin/
+        env:
+          PKG_NAME: ghr
+          PKG_VER: v0.13.0
+          GOOS: linux
+          GOARCH: amd64
+
+      - name: Cross Compile
+        run: make cross-compile
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Assets
+        run: make upload-assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

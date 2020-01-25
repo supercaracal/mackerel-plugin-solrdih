@@ -1,6 +1,6 @@
 module mackerel-plugin-solrdih
 
-go 1.12
+go 1.13
 
 require (
 	github.com/mackerelio/go-mackerel-plugin-helper v0.0.0-20190712052147-cc61b45daff1

@@ -1,0 +1,32 @@
+---
+name: CI
+on: [push]
+jobs:
+  test:
+    name: Test
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        os: ["ubuntu-latest"]
+        go-ver: ["1.13"]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-ver }}
+
+      - name: Add $GOPATH/bin to $PATH
+        run: echo "::add-path::$(go env GOPATH)/bin"
+
+      - name: Get dependencies
+        run: go get golang.org/x/lint/golint
+
+      - name: Test
+        run: make test
+
+      - name: Lint
+        run: make lint
