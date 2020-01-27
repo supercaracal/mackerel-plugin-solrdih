@@ -5,9 +5,9 @@ latest_tag := $(shell git describe --abbrev=0 --tags)
 
 all: build test lint
 
-build: mackerel-plugin-solrdih
+build: ${app_name}
 
-mackerel-plugin-solrdih: main.go
+${app_name}: main.go
 	go build -ldflags="-s -w" -trimpath -o $@
 
 test:
@@ -18,10 +18,10 @@ lint:
 	golint -set_exit_status
 
 clean:
-	@rm -f mackerel-plugin-solrdih main
+	@rm -f ${app_name} main
 
 cross-compile:
-	goxz -d dist/${latest_tag} -z -os windows,darwin,linux -arch amd64,386
+	goxz -d dist/${latest_tag} -os windows,darwin,linux -arch amd64,386
 
 upload-assets:
 	ghr -u ${owner_id} -r ${app_name} ${latest_tag} dist/${latest_tag}
