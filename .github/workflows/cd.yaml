@@ -23,9 +23,7 @@ jobs:
           go-version: ${{ matrix.go-ver }}
 
       - name: Add $GOPATH/bin to $PATH
-        run: |
-          mkdir -p $(go env GOPATH)/bin
-          echo "::add-path::$(go env GOPATH)/bin"
+        run: echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
 
       - name: Get goxz
         uses: supercaracal/go-mod-dl-action@v1
